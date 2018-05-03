@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+
+    <string name="API_KEY"></string>
+
+    <!-- JSON TAG Details -->
+    <string name="TAG_RESULTS">results</string>
+    <string name="TAG_ORIGINAL_TITLE">original_title</string>
+    <string name="TAG_POSTER_PATH">poster_path</string>
+    <string name="TAG_OVERVIEW">overview</string>
+    <string name="TAG_VOTE_AVERAGE">vote_average</string>
+    <string name="TAG_RELESE_DATE">release_date</string>
+
+    <!-- The Movie DB - API URL Details -->
+    <string name="TMDB_BASE_URL">https://api.themoviedb.org/3/discover/movie?</string>
+    <string name="TMDB_POSTER_BASE_URL">https://image.tmdb.org/t/p/w185</string>
+    <string name="SORT_BY_PARAM">sort_by</string>
+    <string name="API_KEY_PARAM">api_key</string>
+    <string name="LANGUAGE_KEY_PARAM">language</string>
+    <string name="SORT_BY_TOP_RATED_KEY">vote_average.desc</string>
+    <string name="SORT_BY_MOST_POPULAR_KEY">popularity.desc</string>
+
+    <!-- Error Message String -->
+    <string name="MISSING_API_KEY">Please provide an API KEY!</string>
+    <string name="NO_NETWORK">We are having trouble in connecting to a network! Please try
+        later.</string>
+    <string name="NO_DATA_FOUND">No data found.</string>
+
+    <!-- UI String -->
+    <string name="title_activity_detail">Movie Detail</string>
+    <string name="description_movie_poster">Contains poster image of a movie!</string>
+    <string name="title_release_date">Release Date:</string>
+    <string name="title_vote_average">Rating:</string>
+
+    <string name="example_vote_average">8.7/10</string>
+    <string name="example_release_date">1668-01-01</string>
+    <string name="example_original_title">The Godfather</string>
+    <string name="example_overview">This is the epic tale of a 1940s New York Mafia family and their struggle to protect their empire from rival families as the leadership switches from the father to his youngest son.</string>
+
+    <!-- Shared Preference  -->
+    <string name="PREF_SORT_METHOD_KEY">SORT_METHOD</string>
+    <string name="PREF_SORT_BY_TOP_RATED">Top Rated</string>
+    <string name="PREF_SORT_BY_MOST_POPULAR">Most Popular</string>
+    <!-- Future Use
+    <string name="PREF_SORT_BY_FAVOURITE">Favourites</string> -->
+
+
+
+</resources>
