@@ -133,13 +133,11 @@ public class MainActivity extends AppCompatActivity {
             case R.string.PREF_SORT_BY_MOST_POPULAR:
                 updateSharedPreference(getString(R.string.SORT_BY_MOST_POPULAR_KEY));
                 updateMenu();
-                //Note: Cannot re-use the getMoviesData, AsyncTask shall be called once per instance.
                 new FetchMoviesFromTMDB(this, aSyncTaskCompleted).execute(getAPIUrl());
                 return true;
             case R.string.PREF_SORT_BY_TOP_RATED:
                 updateSharedPreference(getString(R.string.SORT_BY_TOP_RATED_KEY));
                 updateMenu();
-                //Note: Cannot re-use the getMoviesData, AsyncTask shall be called once per instance.
                 new FetchMoviesFromTMDB(this, aSyncTaskCompleted).execute(getAPIUrl());
                 return true;
             default:
