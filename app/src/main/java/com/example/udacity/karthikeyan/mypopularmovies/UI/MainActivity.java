@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
     }
 
     private void showLoadingInfo()
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
 
-        if (mRecyclerView.getChildCount() == 0){
+        if (mAdapter.getItemCount() == 0){
             Toast.makeText(this, R.string.NO_DATA_FOUND, Toast.LENGTH_LONG).show();
         }
     }
