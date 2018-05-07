@@ -1,15 +1,16 @@
 <resources>
     <string name="app_name">Popular Movies</string>
 
-    <string name="API_KEY"></string>
+    <!-- ><string name="API_KEY">d06aff25cc14567b778e3040f75f275c26</string> -->
 
-    <!-- JSON TAG Details -->
+    <!-- JSON  MOVIE - TAG Details -->
     <string name="TAG_RESULTS">results</string>
     <string name="TAG_ORIGINAL_TITLE">original_title</string>
     <string name="TAG_POSTER_PATH">poster_path</string>
     <string name="TAG_OVERVIEW">overview</string>
     <string name="TAG_VOTE_AVERAGE">vote_average</string>
     <string name="TAG_RELESE_DATE">release_date</string>
+    <string name="TAG_MOVIE_ID">id</string>
 
     <!-- The Movie DB - API URL Details -->
     <string name="TMDB_BASE_URL">https://api.themoviedb.org/3/discover/movie?</string>
@@ -25,6 +26,9 @@
     <string name="NO_NETWORK">We are having trouble in connecting to a network! Please try
         later.</string>
     <string name="NO_DATA_FOUND">No data found.</string>
+    <string name="NO_NETWORK_SHORT_MSG">Network Unavailable.</string>
+    <string name="NO_FAV_FOUND">No favourites found.</string>
+
 
     <!-- UI String -->
     <string name="title_activity_detail">Movie Detail</string>
@@ -41,8 +45,13 @@
     <string name="PREF_SORT_METHOD_KEY">SORT_METHOD</string>
     <string name="PREF_SORT_BY_TOP_RATED">Top Rated</string>
     <string name="PREF_SORT_BY_MOST_POPULAR">Most Popular</string>
-    <!-- Future Use
-    <string name="PREF_SORT_BY_FAVOURITE">Favourites</string> -->
+    <string name="PREF_SORT_BY_FAVOURITE">My Favorites</string>
+    <string name="PARCEL_KEY">PopularMovies</string>
+
+    <!-- Display Message -->
+    <string name="FAV_ADD_MSG">Added to your favourite list.</string>
+    <string name="FAV_REMOVE_MSG">Removed from your favourite list.</string>
+    <string name='NETWORK_SHORT_MSG'>Connected Successfully.</string>
 
 
 

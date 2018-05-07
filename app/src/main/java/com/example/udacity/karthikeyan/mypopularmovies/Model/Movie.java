@@ -1,6 +1,16 @@
 package com.example.udacity.karthikeyan.mypopularmovies.Model;
 
-public class Movie {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Movie implements Parcelable{
+
+    private String mOriginalTitle;
+    private String mPosterPath;
+    private String mOverview;
+    private Double mVoteAverage;
+    private String mReleaseDate;
+    private int    mMovieID;
 
 
     public String getmOriginalTitle() {
@@ -43,20 +53,59 @@ public class Movie {
         this.mReleaseDate = mReleaseDate;
     }
 
-    public Movie (String mOriginalTitle, String mPosterPath, String mOverview, Double mVoteAverage, String mReleaseDate)
+    public int getmMovieID() { return mMovieID; }
+
+    public void setmMovieID(int mMovieID) { this.mMovieID = mMovieID; }
+
+    /**
+     * Constructor for a movie object
+     * @param source
+     */
+    public Movie(Parcel source) {
+        mOriginalTitle = source.readString();
+        mPosterPath = source.readString();
+        mOverview = source.readString();
+        mVoteAverage = (Double) source.readValue(Double.class.getClassLoader());
+        mReleaseDate = source.readString();
+    }
+
+
+    public Movie (String mOriginalTitle, String mPosterPath, String mOverview, Double mVoteAverage, String mReleaseDate, int mMovieID)
     {
         this.mOriginalTitle = mOriginalTitle;
         this.mPosterPath = mPosterPath;
         this.mOverview = mOverview;
         this.mVoteAverage = mVoteAverage;
         this.mReleaseDate = mReleaseDate;
+        this.mMovieID = mMovieID;
     }
 
-    private String mOriginalTitle;
-    private String mPosterPath;
-    private String mOverview;
-    private Double mVoteAverage;
-    private String mReleaseDate;
+
+    /* Parcelable */
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mOriginalTitle);
+        dest.writeString(mPosterPath);
+        dest.writeString(mOverview);
+        dest.writeValue(mVoteAverage);
+        dest.writeString(mReleaseDate);
+    }
+
+
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
+
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 }

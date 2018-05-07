@@ -27,6 +27,17 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".UI.MainActivity"></meta-data>
         </activity>
+
+        <provider android:name=".Model.MovieRepository"
+            android:authorities="com.example.udacity.karthikeyan.mypopularmovies"/>
+
+        <receiver
+            android:name=".Utilities.ConnectivityReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

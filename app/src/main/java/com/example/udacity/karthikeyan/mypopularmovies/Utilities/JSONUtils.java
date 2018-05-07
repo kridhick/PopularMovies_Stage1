@@ -30,6 +30,7 @@ public class JSONUtils {
         final String TAG_OVERVIEW = context.getString(R.string.TAG_OVERVIEW);
         final String TAG_VOTE_AVERAGE = context.getString(R.string.TAG_VOTE_AVERAGE);
         final String TAG_RELEASE_DATE = context.getString(R.string.TAG_RELESE_DATE);
+        final String TAG_MOVIE_ID    = context.getString(R.string.TAG_MOVIE_ID);
         //Used to Append to Poster Path
         final String TMDB_POSTER_BASE_URL = context.getString(R.string.TMDB_POSTER_BASE_URL);
 
@@ -48,8 +49,9 @@ public class JSONUtils {
                 String overview = movieInfo.optString(TAG_OVERVIEW);
                 Double voteAverage = movieInfo.optDouble(TAG_VOTE_AVERAGE);
                 String releaseDate = movieInfo.optString(TAG_RELEASE_DATE);
+                int    movieID     = movieInfo.optInt(TAG_MOVIE_ID);
 
-                Movie movieItem = new Movie(movieTitle, TMDB_POSTER_BASE_URL + posterPath, overview, voteAverage, releaseDate);
+                Movie movieItem = new Movie(movieTitle, TMDB_POSTER_BASE_URL + posterPath, overview, voteAverage, releaseDate, movieID);
 
                 movieList.add(movieItem);
             }

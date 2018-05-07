@@ -76,6 +76,14 @@ tools:context=".UI.DetailActivity">
                 android:text="@string/example_vote_average"
                 android:textSize="@dimen/abc_text_size_large_material"
                 tools:ignore="PrivateResource" />
+
+            <CheckBox
+                android:id="@+id/btn_favorite"
+                android:padding="@dimen/margin_10dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:button="@android:drawable/btn_star"
+                android:background="#00ffffff"/>
         </LinearLayout>
 
     </LinearLayout>

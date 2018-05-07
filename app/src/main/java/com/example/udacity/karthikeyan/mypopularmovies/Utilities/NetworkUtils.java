@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
 
+import com.example.udacity.karthikeyan.mypopularmovies.BuildConfig;
 import com.example.udacity.karthikeyan.mypopularmovies.R;
 
 import java.io.IOException;
@@ -38,7 +39,9 @@ public class NetworkUtils {
      final String SORT_BY_PARAM = context.getString(R.string.SORT_BY_PARAM);
      final String API_KEY_PARAM = context.getString(R.string.API_KEY_PARAM);
      final String LANGUAGE_PARAM = context.getString(R.string.LANGUAGE_KEY_PARAM);
-     final String API_KEY = context.getString(R.string.API_KEY);
+     final String API_KEY = BuildConfig.MY_MOVIE_DB_API_KEY;
+
+
 
         Uri builtUri = Uri.parse(TMDB_BASE_URL).buildUpon()
                 .appendQueryParameter(SORT_BY_PARAM, sort_by_param)

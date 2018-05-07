@@ -46,6 +46,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 .resize(mContext.getResources().getInteger(R.integer.tmdb_poster_w185_width),
                         mContext.getResources().getInteger(R.integer.tmdb_poster_w185_height))
                 .placeholder(R.drawable.placeholder)
+                  .error(R.drawable.placeholder)
                 .into(holder.moviePoster);
 
           holder.view.setOnClickListener(v->{
@@ -56,6 +57,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
               detailIntent.putExtra(mContext.getString(R.string.TAG_VOTE_AVERAGE), movie.getmVoteAverage().toString());
               detailIntent.putExtra(mContext.getString(R.string.TAG_OVERVIEW), movie.getmOverview());
               detailIntent.putExtra(mContext.getString(R.string.TAG_RELESE_DATE), movie.getmReleaseDate());
+              detailIntent.putExtra(mContext.getString(R.string.TAG_MOVIE_ID), movie.getmMovieID());
               mContext.startActivity(detailIntent);
 
           });
