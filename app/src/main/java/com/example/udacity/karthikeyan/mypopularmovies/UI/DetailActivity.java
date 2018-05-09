@@ -13,11 +13,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.udacity.karthikeyan.mypopularmovies.Model.Movie;
 import com.example.udacity.karthikeyan.mypopularmovies.Model.MovieContract;
 import com.example.udacity.karthikeyan.mypopularmovies.R;
 import com.squareup.picasso.Picasso;
@@ -41,7 +44,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         setContentView(R.layout.activity_detail);
         Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView TitleTextView =  findViewById(R.id.textview_original_title);
@@ -50,15 +52,18 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         TextView VoteAverageTextView =  findViewById(R.id.textview_vote_average);
         TextView ReleaseDateTextView =  findViewById(R.id.textview_release_date);
         favouriteCheckBox = findViewById(R.id.btn_favorite);
+        ImageButton reviewButton = findViewById(R.id.btn_review);
 
-        // TODO: Need to explore the possibility of sending the whole class/object as param.
+
         Intent intent = getIntent();
-        String mTitle = intent.getStringExtra(getString(R.string.TAG_ORIGINAL_TITLE));
-        String mPosterURL = intent.getStringExtra(getString(R.string.TAG_POSTER_PATH));
-        String mOverview = intent.getStringExtra(getString(R.string.TAG_OVERVIEW));
-        String mVoteAverage = intent.getStringExtra(getString(R.string.TAG_VOTE_AVERAGE));
-        String mReleaseDate = intent.getStringExtra(getString(R.string.TAG_RELESE_DATE));
-        mMovieID     = intent.getIntExtra(getString(R.string.TAG_MOVIE_ID), MOVIE_DEFAULT_VALUE);
+        Movie mMovie = intent.getParcelableExtra(getString(R.string.PARCEL_KEY));
+
+        String mTitle = mMovie.getmOriginalTitle();
+        String mPosterURL = mMovie.getmPosterPath();
+        String mOverview = mMovie.getmOverview();
+        String mVoteAverage = String.valueOf(mMovie.getmVoteAverage());
+        String mReleaseDate = mMovie.getmReleaseDate();
+        mMovieID = mMovie.getmMovieID();
 
         mUri = MovieContract.MovieEntry.buildUriWithMovieID(mMovieID);
 
@@ -126,6 +131,15 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         getLoaderManager().initLoader(MOVIE_DETAIL_LOADER_ID, null, this);
 
+        reviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showReviewPage();
+            }
+        });
+
+
+
     }
 
     @Override
@@ -157,4 +171,13 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+
+    private void showReviewPage()
+    {
+        Intent reviewIntent = new Intent(this, ReviewActivity.class);
+        reviewIntent.putExtra(getString(R.string.TAG_MOVIE_ID), mMovieID);
+        startActivity(reviewIntent);
+    }
+
+
 }

@@ -77,13 +77,21 @@ tools:context=".UI.DetailActivity">
                 android:textSize="@dimen/abc_text_size_large_material"
                 tools:ignore="PrivateResource" />
 
-            <CheckBox
-                android:id="@+id/btn_favorite"
-                android:padding="@dimen/margin_10dp"
+            <ImageButton
+                android:id="@+id/btn_review"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:layout_gravity="end|bottom"
+                android:padding="@dimen/margin_10dp"
+                app:srcCompat="@android:drawable/ic_menu_more" />
+
+            <CheckBox
+                android:id="@+id/btn_favorite"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="#00ffffff"
                 android:button="@android:drawable/btn_star"
-                android:background="#00ffffff"/>
+                android:padding="@dimen/margin_10dp" />
         </LinearLayout>
 
     </LinearLayout>

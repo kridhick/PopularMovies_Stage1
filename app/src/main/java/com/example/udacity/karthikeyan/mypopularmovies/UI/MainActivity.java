@@ -39,7 +39,9 @@ import java.util.List;
 import static com.example.udacity.karthikeyan.mypopularmovies.BuildConfig.MY_MOVIE_DB_API_KEY;
 
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, ConnectivityReceiver.ConnectivityReceiverListener {
+public class MainActivity extends AppCompatActivity
+        implements  LoaderManager.LoaderCallbacks<Cursor>,
+                    ConnectivityReceiver.ConnectivityReceiverListener {
 
     private final String TAG = MainActivity.class.getSimpleName();
     private MovieListAdapter mAdapter;
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 Toast.makeText(this, R.string.MISSING_API_KEY, Toast.LENGTH_LONG).show();
             } else {
                 aSyncTask.execute(getAPIUrl());
-                Log.d(TAG, "Adapter values are set");
+                Log.d(TAG, "Adapter values are set for initial call.");
             }
 
 
@@ -266,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         if(mAdapter.getItemCount() > 0)
         {
-            outState.putParcelableArrayList(getString(R.string.PARCEL_KEY), (ArrayList<? extends Parcelable>) moviesList);
+     //       outState.putParcelableArrayList(getString(R.string.PARCEL_KEY), (ArrayList<? extends Parcelable>) moviesList);
         }
         super.onSaveInstanceState(outState);
     }

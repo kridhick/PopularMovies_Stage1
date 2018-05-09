@@ -67,6 +67,7 @@ public class Movie implements Parcelable{
         mOverview = source.readString();
         mVoteAverage = (Double) source.readValue(Double.class.getClassLoader());
         mReleaseDate = source.readString();
+        mMovieID = (Integer) source.readValue(Integer.class.getClassLoader());
     }
 
 
@@ -96,6 +97,7 @@ public class Movie implements Parcelable{
         dest.writeString(mOverview);
         dest.writeValue(mVoteAverage);
         dest.writeString(mReleaseDate);
+        dest.writeValue(mMovieID);
     }
 
 

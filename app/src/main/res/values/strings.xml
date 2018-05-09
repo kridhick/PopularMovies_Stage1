@@ -52,7 +52,7 @@
     <string name="FAV_ADD_MSG">Added to your favourite list.</string>
     <string name="FAV_REMOVE_MSG">Removed from your favourite list.</string>
     <string name='NETWORK_SHORT_MSG'>Connected Successfully.</string>
-
+    <string name="title_activity_review">"Reviews "</string>
 
 
 </resources>

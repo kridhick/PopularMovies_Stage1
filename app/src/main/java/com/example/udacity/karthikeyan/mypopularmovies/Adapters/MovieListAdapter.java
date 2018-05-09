@@ -40,7 +40,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     @Override
     public void onBindViewHolder(@NonNull MovieListAdapterViewHolder holder, int position) {
         final Movie movie = mValues.get(position);
-        //holder.movieTitle.setText(movie.getmOriginalTitle());
+
 
           Picasso.get().load(movie.getmPosterPath())
                 .resize(mContext.getResources().getInteger(R.integer.tmdb_poster_w185_width),
@@ -52,12 +52,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
           holder.view.setOnClickListener(v->{
 
               Intent detailIntent = new Intent(mContext, DetailActivity.class);
-              detailIntent.putExtra(mContext.getString(R.string.TAG_ORIGINAL_TITLE), movie.getmOriginalTitle());
-              detailIntent.putExtra(mContext.getString(R.string.TAG_POSTER_PATH), movie.getmPosterPath());
-              detailIntent.putExtra(mContext.getString(R.string.TAG_VOTE_AVERAGE), movie.getmVoteAverage().toString());
-              detailIntent.putExtra(mContext.getString(R.string.TAG_OVERVIEW), movie.getmOverview());
-              detailIntent.putExtra(mContext.getString(R.string.TAG_RELESE_DATE), movie.getmReleaseDate());
-              detailIntent.putExtra(mContext.getString(R.string.TAG_MOVIE_ID), movie.getmMovieID());
+              detailIntent.putExtra(mContext.getString(R.string.PARCEL_KEY), movie);
               mContext.startActivity(detailIntent);
 
           });
@@ -119,7 +114,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             super(itemView);
             this.view = itemView;
             this.moviePoster = itemView.findViewById(R.id.moviePoster);
-            //this.movieTitle = itemView.findViewById(R.id.movieName);
         }
     }
 }

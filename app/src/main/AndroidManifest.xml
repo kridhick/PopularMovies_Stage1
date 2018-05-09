@@ -21,15 +21,17 @@
         </activity>
         <activity
             android:name=".UI.DetailActivity"
-            android:parentActivityName=".UI.MainActivity"
             android:label="@string/title_activity_detail"
+            android:parentActivityName=".UI.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".UI.MainActivity"></meta-data>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UI.MainActivity" />
         </activity>
 
-        <provider android:name=".Model.MovieRepository"
-            android:authorities="com.example.udacity.karthikeyan.mypopularmovies"/>
+        <provider
+            android:name=".Model.MovieRepository"
+            android:authorities="com.example.udacity.karthikeyan.mypopularmovies" />
 
         <receiver
             android:name=".Utilities.ConnectivityReceiver"
@@ -38,6 +40,16 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".UI.ReviewActivity"
+            android:label="@string/title_activity_review"
+            android:parentActivityName=".UI.DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.udacity.karthikeyan.mypopularmovies.UI.DetailActivity" />
+        </activity>
     </application>
 
 </manifest>
