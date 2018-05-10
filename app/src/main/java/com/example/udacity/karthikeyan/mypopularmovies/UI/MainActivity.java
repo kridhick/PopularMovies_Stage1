@@ -73,6 +73,9 @@ public class MainActivity extends AppCompatActivity
         mProgressBar = findViewById(R.id.progressbar);
 
         showLoadingInfo();
+        if (savedInstanceState != null) {
+            moviesList = savedInstanceState.getParcelableArrayList(getString(R.string.PARCEL_KEY));
+        }
 
         int GRID_SPAN_COUNT = GeneralUtils.calculateNoOfColumns(getApplicationContext());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, GRID_SPAN_COUNT);
@@ -268,7 +271,7 @@ public class MainActivity extends AppCompatActivity
 
         if(mAdapter.getItemCount() > 0)
         {
-     //       outState.putParcelableArrayList(getString(R.string.PARCEL_KEY), (ArrayList<? extends Parcelable>) moviesList);
+            outState.putParcelableArrayList(getString(R.string.PARCEL_KEY), (ArrayList<? extends Parcelable>) moviesList);
         }
         super.onSaveInstanceState(outState);
     }

@@ -48,7 +48,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.udacity.karthikeyan.mypopularmovies.UI.DetailActivity" />
+                android:value="UI.DetailActivity" />
         </activity>
     </application>
 

@@ -29,14 +29,24 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
     private static final String TAG = DetailActivity.class.getSimpleName();
     private static final int MOVIE_DEFAULT_VALUE = -1;
+    private static final int MOVIE_DETAIL_LOADER_ID = 101;
+    private static final int REQ_CODE = 1;
     private ContentValues mContentValues;
     private int mMovieID;
     private CheckBox favouriteCheckBox;
     private Uri mUri;
+    private Movie mMovie;
+    private ContentResolver mContentResolver;
+    private TextView TitleTextView;
+    private ImageView PosterImageView;
+    private TextView OverviewTextView;
+    private TextView VoteAverageTextView;
+    private TextView ReleaseDateTextView;
+    private ImageButton reviewButton;
     public static final String[] FAV_MOVIE_PROJECTION = {
             MovieContract.MovieEntry.COLUMN_MOVIE_ID};
 
-    private static final int MOVIE_DETAIL_LOADER_ID = 101;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,90 +56,47 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView TitleTextView =  findViewById(R.id.textview_original_title);
-        ImageView PosterImageView =  findViewById(R.id.imageview_poster);
-        TextView OverviewTextView = findViewById(R.id.textview_overview);
-        TextView VoteAverageTextView =  findViewById(R.id.textview_vote_average);
-        TextView ReleaseDateTextView =  findViewById(R.id.textview_release_date);
+        TitleTextView =  findViewById(R.id.textview_original_title);
+        PosterImageView =  findViewById(R.id.imageview_poster);
+        OverviewTextView = findViewById(R.id.textview_overview);
+        VoteAverageTextView =  findViewById(R.id.textview_vote_average);
+        ReleaseDateTextView =  findViewById(R.id.textview_release_date);
         favouriteCheckBox = findViewById(R.id.btn_favorite);
-        ImageButton reviewButton = findViewById(R.id.btn_review);
+        reviewButton = findViewById(R.id.btn_review);
 
 
         Intent intent = getIntent();
-        Movie mMovie = intent.getParcelableExtra(getString(R.string.PARCEL_KEY));
+        if(intent.hasExtra(getString(R.string.PARCEL_KEY))) {
+            mMovie = intent.getParcelableExtra(getString(R.string.PARCEL_KEY));
+            showDetailData();
 
-        String mTitle = mMovie.getmOriginalTitle();
-        String mPosterURL = mMovie.getmPosterPath();
-        String mOverview = mMovie.getmOverview();
-        String mVoteAverage = String.valueOf(mMovie.getmVoteAverage());
-        String mReleaseDate = mMovie.getmReleaseDate();
-        mMovieID = mMovie.getmMovieID();
-
-        mUri = MovieContract.MovieEntry.buildUriWithMovieID(mMovieID);
-
-        TitleTextView.setText(mTitle);
-
-        Picasso.get()
-                .load(mPosterURL)
-                .resize(getResources().getInteger(R.integer.tmdb_poster_w185_width),
-                        getResources().getInteger(R.integer.tmdb_poster_w185_height))
-                .placeholder(R.drawable.placeholder)
-                .error(R.drawable.placeholder)
-                .into(PosterImageView);
-
-
-        if (mOverview == null) {
-            OverviewTextView.setTypeface(null, Typeface.ITALIC);
-            mOverview = getResources().getString(R.string.NO_DATA_FOUND);
         }
-        OverviewTextView.setText(mOverview);
-        VoteAverageTextView.setText(mVoteAverage + "/10");
-
-
-
-        if(mReleaseDate == null)
-        {
-            ReleaseDateTextView.setTypeface(null, Typeface.ITALIC);
-            mReleaseDate = getResources().getString(R.string.NO_DATA_FOUND);
-        }
-        ReleaseDateTextView.setText(mReleaseDate);
-        Log.d(TAG, "Detail activity successfully completed for"+ mTitle);
-
-        ContentResolver movieContentResolver = this.getContentResolver();
-        mContentValues = new ContentValues();
-        mContentValues.put(MovieContract.MovieEntry.COLUMN_TITLE, mTitle);
-        mContentValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, mPosterURL);
-        mContentValues.put(MovieContract.MovieEntry.COLUMN_OVERVIEW, mOverview);
-        mContentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVG, Double.parseDouble(mVoteAverage));
-        mContentValues.put(MovieContract.MovieEntry.COLUMN_REL_DATE, mReleaseDate);
-        mContentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, mMovieID);
-
-
-
-        favouriteCheckBox.setOnClickListener(v -> {
-
-            // Checked
-            if (favouriteCheckBox.isChecked() && mMovieID != MOVIE_DEFAULT_VALUE)
-            {
-                movieContentResolver.delete(mUri, null, null);
-
-                movieContentResolver.insert(MovieContract.MovieEntry.CONTENT_URI, mContentValues);
-
-                Toast.makeText(this, R.string.FAV_ADD_MSG, Toast.LENGTH_LONG).show();
-            }
-
-
-            // Not Checked
-            if(!favouriteCheckBox.isChecked() && mMovieID != MOVIE_DEFAULT_VALUE)
-            {
-                movieContentResolver.delete(mUri, null, null);
-                Toast.makeText(this, R.string.FAV_REMOVE_MSG, Toast.LENGTH_LONG).show();
-            }
-
-
-        });
 
         getLoaderManager().initLoader(MOVIE_DETAIL_LOADER_ID, null, this);
+
+            favouriteCheckBox.setOnClickListener(v -> {
+
+                // Checked
+                if (favouriteCheckBox.isChecked() && mMovieID != MOVIE_DEFAULT_VALUE) {
+                    mContentResolver.delete(mUri, null, null);
+
+                    mContentResolver.insert(MovieContract.MovieEntry.CONTENT_URI, mContentValues);
+
+                    Toast.makeText(this, R.string.FAV_ADD_MSG, Toast.LENGTH_LONG).show();
+                }
+
+
+                // Not Checked
+                if (!favouriteCheckBox.isChecked() && mMovieID != MOVIE_DEFAULT_VALUE) {
+                    mContentResolver.delete(mUri, null, null);
+                    Toast.makeText(this, R.string.FAV_REMOVE_MSG, Toast.LENGTH_LONG).show();
+                }
+
+
+            });
+
+
+
 
         reviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,8 +143,69 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     {
         Intent reviewIntent = new Intent(this, ReviewActivity.class);
         reviewIntent.putExtra(getString(R.string.TAG_MOVIE_ID), mMovieID);
-        startActivity(reviewIntent);
+        reviewIntent.putExtra(getString(R.string.PARCEL_KEY), mMovie);
+        startActivityForResult(reviewIntent, REQ_CODE);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_CODE)
+        {
+            if(resultCode == RESULT_OK)
+            {
+                mMovie = data.getParcelableExtra(getString(R.string.PARCEL_KEY));
+                showDetailData();
 
+            }
+        }
+    }
+
+    private void showDetailData()
+    {
+
+        String mTitle = mMovie.getmOriginalTitle();
+        String mPosterURL = mMovie.getmPosterPath();
+        String mOverview = mMovie.getmOverview();
+        String mVoteAverage = String.valueOf(mMovie.getmVoteAverage());
+        String mReleaseDate = mMovie.getmReleaseDate();
+        mMovieID = mMovie.getmMovieID();
+
+        mUri = MovieContract.MovieEntry.buildUriWithMovieID(mMovieID);
+
+        TitleTextView.setText(mTitle);
+
+        Picasso.get()
+                .load(mPosterURL)
+                .resize(getResources().getInteger(R.integer.tmdb_poster_w185_width),
+                        getResources().getInteger(R.integer.tmdb_poster_w185_height))
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
+                .into(PosterImageView);
+
+
+        if (mOverview == null) {
+            OverviewTextView.setTypeface(null, Typeface.ITALIC);
+            mOverview = getResources().getString(R.string.NO_DATA_FOUND);
+        }
+        OverviewTextView.setText(mOverview);
+        VoteAverageTextView.setText(mVoteAverage + "/10");
+
+
+        if (mReleaseDate == null) {
+            ReleaseDateTextView.setTypeface(null, Typeface.ITALIC);
+            mReleaseDate = getResources().getString(R.string.NO_DATA_FOUND);
+        }
+        ReleaseDateTextView.setText(mReleaseDate);
+        Log.d(TAG, "Detail activity successfully completed for" + mTitle);
+
+        mContentResolver = this.getContentResolver();
+        mContentValues = new ContentValues();
+        mContentValues.put(MovieContract.MovieEntry.COLUMN_TITLE, mTitle);
+        mContentValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, mPosterURL);
+        mContentValues.put(MovieContract.MovieEntry.COLUMN_OVERVIEW, mOverview);
+        mContentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVG, Double.parseDouble(mVoteAverage));
+        mContentValues.put(MovieContract.MovieEntry.COLUMN_REL_DATE, mReleaseDate);
+        mContentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, mMovieID);
+
+    }
 }

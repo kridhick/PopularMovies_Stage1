@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 
 import com.example.udacity.karthikeyan.mypopularmovies.Adapters.ReviewAdapter;
 import com.example.udacity.karthikeyan.mypopularmovies.BuildConfig;
+import com.example.udacity.karthikeyan.mypopularmovies.Model.Movie;
 import com.example.udacity.karthikeyan.mypopularmovies.Model.ResultReview;
 import com.example.udacity.karthikeyan.mypopularmovies.Model.Review;
 import com.example.udacity.karthikeyan.mypopularmovies.R;
@@ -37,6 +38,7 @@ public class ReviewActivity extends AppCompatActivity {
 
     private static String API_KEY;
     private int mMovieId;
+    private Movie mMovie;
     private static final String TAG = ReviewActivity.class.getSimpleName();
     private static final int MOVIE_DEFAULT_VALUE = -1;
     private static final int PAGE_START = 1;
@@ -92,18 +94,24 @@ public class ReviewActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         API_KEY = BuildConfig.MY_MOVIE_DB_API_KEY;
         TOTAL_PAGES = R.integer.MAX_PAGE_CHECK_SIZE; // just an initial value; override'd based on the API response.
 
         Intent intent = getIntent();
         mMovieId = intent.getIntExtra(getString(R.string.TAG_MOVIE_ID), MOVIE_DEFAULT_VALUE);
+        mMovie = intent.getParcelableExtra(getString(R.string.PARCEL_KEY));
 
         reviewAdapter = new ReviewAdapter(this);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(reviewAdapter);
+
+       // Intent detailActivity = new Intent();
+       // detailActivity.putExtra(getString(R.string.PARCEL_KEY), mMovie);
+       // setResult(RESULT_OK, detailActivity);
 
 
 
@@ -175,7 +183,10 @@ public class ReviewActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
+        Intent detailActivity = new Intent();
+        detailActivity.putExtra(getString(R.string.PARCEL_KEY), mMovie);
+        setResult(RESULT_OK, detailActivity);
         finish();
     }
 }
