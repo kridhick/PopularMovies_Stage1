@@ -9,15 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.udacity.karthikeyan.mypopularmovies.Model.Movie;
 import com.example.udacity.karthikeyan.mypopularmovies.R;
 import com.example.udacity.karthikeyan.mypopularmovies.UI.DetailActivity;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListAdapterViewHolder>{
 
@@ -89,7 +87,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
                 @Override
                 public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    return mValues.get(oldItemPosition).getmOriginalTitle() == newValues.get(newItemPosition).getmOriginalTitle();
+                    return mValues.get(oldItemPosition).getmOriginalTitle().equals(newValues.get(newItemPosition).getmOriginalTitle());
                 }
 
                 @Override
@@ -97,7 +95,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                     Movie newMovie = newValues.get(newItemPosition);
                     Movie oldMovie = mValues.get(oldItemPosition);
 
-                    return newMovie.getmOriginalTitle() == oldMovie.getmOriginalTitle() && newMovie.getmReleaseDate() == (oldMovie.getmReleaseDate());
+                    return newMovie.getmOriginalTitle().equals(oldMovie.getmOriginalTitle()) && newMovie.getmReleaseDate().equals(oldMovie.getmReleaseDate());
                 }
             });
             mValues = newValues;
@@ -105,15 +103,16 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         }
     }
 
-    public class MovieListAdapterViewHolder extends RecyclerView.ViewHolder {
+    class MovieListAdapterViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.moviePoster)
         ImageView moviePoster;
-        TextView movieTitle;
+
         View view;
-        public MovieListAdapterViewHolder(View itemView) {
+        MovieListAdapterViewHolder(View itemView) {
             super(itemView);
             this.view = itemView;
-            this.moviePoster = itemView.findViewById(R.id.moviePoster);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

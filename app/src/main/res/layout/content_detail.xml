@@ -14,8 +14,8 @@ tools:context=".UI.DetailActivity">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:minHeight="185dp"
         android:layout_marginTop="@dimen/margin_32dp"
+        android:minHeight="185dp"
         android:orientation="horizontal"
         android:weightSum="5">
 
@@ -77,21 +77,40 @@ tools:context=".UI.DetailActivity">
                 android:textSize="@dimen/abc_text_size_large_material"
                 tools:ignore="PrivateResource" />
 
-            <ImageButton
-                android:id="@+id/btn_review"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="end|bottom"
-                android:padding="@dimen/margin_10dp"
-                app:srcCompat="@android:drawable/ic_menu_more" />
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/btn_review"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="start"
+                    android:padding="@dimen/margin_10dp"
+                    app:srcCompat="@android:drawable/ic_menu_more" />
 
-            <CheckBox
-                android:id="@+id/btn_favorite"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="#00ffffff"
-                android:button="@android:drawable/btn_star"
-                android:padding="@dimen/margin_10dp" />
+                <ImageButton
+                    android:id="@+id/btn_trailer"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/margin_10dp"
+                    android:src="@drawable/ic_ondemand_video_black_24dp" />
+
+                <CheckBox
+                    android:id="@+id/btn_favorite"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="#00ffffff"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="160dp"
+                    android:padding="@dimen/margin_10dp"
+                    android:button="@android:drawable/btn_star"
+                    />
+
+
+            </android.support.design.widget.CoordinatorLayout>
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -100,7 +119,8 @@ tools:context=".UI.DetailActivity">
 <LinearLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/overview_layout">
 
 
     <TextView

@@ -1,19 +1,14 @@
 package com.example.udacity.karthikeyan.mypopularmovies.Model;
-
 import android.content.ContentProvider;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class MovieRepository extends ContentProvider{
 
@@ -54,12 +49,12 @@ public class MovieRepository extends ContentProvider{
                 break;
 
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException(TAG + "Unknown uri: " + uri);
         }
 
 
 
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        cursor.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(), uri);
         return cursor;
     }
 
@@ -73,7 +68,7 @@ public class MovieRepository extends ContentProvider{
         {
             case MOVIES:
                 db.beginTransaction();
-                long rowsInserted = 0;
+                long rowsInserted;
                 try {
                     rowsInserted = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, values);
                     db.setTransactionSuccessful();
@@ -84,12 +79,12 @@ public class MovieRepository extends ContentProvider{
 
 
                 if (rowsInserted > 0) {
-                    getContext().getContentResolver().notifyChange(uri, null);
+                    Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri, null);
                 }
 
                 return uri;
              default:
-                 throw new UnsupportedOperationException("Unknown uri: " + uri);
+                 throw new UnsupportedOperationException(TAG + "Unknown uri: " + uri);
 
         }
 
@@ -98,7 +93,7 @@ public class MovieRepository extends ContentProvider{
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        int rowsDeleted = 0;
+        int rowsDeleted;
         String whereClause = "";
         String[] whereArgs = {};
 
@@ -121,12 +116,12 @@ public class MovieRepository extends ContentProvider{
 
 
                 if (rowsDeleted != 0) {
-                    getContext().getContentResolver().notifyChange(uri, null);
+                    Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri, null);
                 }
                 return rowsDeleted;
 
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException(TAG + "Unknown uri: " + uri);
         }
     }
 

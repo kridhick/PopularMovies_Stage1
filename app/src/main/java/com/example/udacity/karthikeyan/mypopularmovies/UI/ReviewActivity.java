@@ -2,6 +2,7 @@ package com.example.udacity.karthikeyan.mypopularmovies.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.udacity.karthikeyan.mypopularmovies.Adapters.ReviewAdapter;
 import com.example.udacity.karthikeyan.mypopularmovies.BuildConfig;
@@ -22,7 +24,11 @@ import com.example.udacity.karthikeyan.mypopularmovies.Sync.RESTApiInterface;
 import com.example.udacity.karthikeyan.mypopularmovies.Utilities.PaginationScrollListener;
 
 import java.util.List;
+import java.util.Objects;
 
+import butterknife.BindInt;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,8 +36,15 @@ import retrofit2.Response;
 public class ReviewActivity extends AppCompatActivity {
 
 
+    @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
+
+    @BindView(R.id.progressbar)
     ProgressBar progressBar;
+
+    @BindInt(R.integer.MAX_PAGE_CHECK_SIZE)
+    int TOTAL_PAGES;
+
     ReviewAdapter reviewAdapter;
     LinearLayoutManager linearLayoutManager;
     RESTApiInterface restApiInterface;
@@ -44,13 +57,14 @@ public class ReviewActivity extends AppCompatActivity {
     private static final int PAGE_START = 1;
     private boolean isLoading = false;
     private boolean isLastPage = false;
-    private int TOTAL_PAGES;
     private int currentPage = PAGE_START;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
+
+        API_KEY = BuildConfig.MY_MOVIE_DB_API_KEY;
 
         initialize();
 
@@ -89,15 +103,14 @@ public class ReviewActivity extends AppCompatActivity {
     private void initialize()
     {
         Toolbar toolbar = findViewById(R.id.toolbar);
-        recyclerView = findViewById(R.id.recyclerview);
-        progressBar = findViewById(R.id.progressbar);
+        ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        API_KEY = BuildConfig.MY_MOVIE_DB_API_KEY;
-        TOTAL_PAGES = R.integer.MAX_PAGE_CHECK_SIZE; // just an initial value; override'd based on the API response.
+        // Handled the device back button pressed stage.
+        //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         Intent intent = getIntent();
         mMovieId = intent.getIntExtra(getString(R.string.TAG_MOVIE_ID), MOVIE_DEFAULT_VALUE);
@@ -109,11 +122,6 @@ public class ReviewActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(reviewAdapter);
 
-       // Intent detailActivity = new Intent();
-       // detailActivity.putExtra(getString(R.string.PARCEL_KEY), mMovie);
-       // setResult(RESULT_OK, detailActivity);
-
-
 
     }
 
@@ -124,25 +132,33 @@ public class ReviewActivity extends AppCompatActivity {
             Call<Review> reviewCall = restApiInterface.getMovieReviews(mMovieId, API_KEY, currentPage);
             reviewCall.enqueue(new Callback<Review>() {
                 @Override
-                public void onResponse(Call<Review> call, Response<Review> response) {
+                public void onResponse(@NonNull Call<Review> call, @NonNull Response<Review> response) {
 
                     if(response.isSuccessful()) {
                         progressBar.setVisibility(View.GONE);
-                        List<ResultReview> resultReviewsList = response.body().getResults();
-                        Log.d(TAG, "The API had returned:" + resultReviewsList.size());
-                        reviewAdapter.addAll(resultReviewsList);
+                        List<ResultReview> resultReviewsList = Objects.requireNonNull(response.body()).getResults();
 
-                        Review review = response.body();
-                        TOTAL_PAGES = review.getTotalPages();
+                        if (resultReviewsList.size() == 0) {
+                            Toast.makeText(getApplicationContext(), R.string.NO_DATA_FOUND, Toast.LENGTH_LONG).show();
 
-                        if (currentPage < TOTAL_PAGES) reviewAdapter.addLoadingFooter();
-                        else isLastPage = true;
+                        }
+                        else {
+                            Log.d(TAG, "The API had returned:" + resultReviewsList.size());
+                            reviewAdapter.addAll(resultReviewsList);
+
+                            Review review = response.body();
+                            TOTAL_PAGES = Objects.requireNonNull(review).getTotalPages();
+
+                            if (currentPage < TOTAL_PAGES) reviewAdapter.addLoadingFooter();
+                            else isLastPage = true;
+                        }
                     }
                 }
 
                 @Override
-                public void onFailure(Call<Review> call, Throwable t) {
+                public void onFailure(@NonNull Call<Review> call, @NonNull Throwable t) {
                     Log.e(TAG, t.toString());
+                    Toast.makeText(getApplicationContext(), R.string.NO_NETWORK, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -155,7 +171,7 @@ public class ReviewActivity extends AppCompatActivity {
             Call<Review> reviewCall = restApiInterface.getMovieReviews(mMovieId, API_KEY, currentPage);
             reviewCall.enqueue(new Callback<Review>() {
                 @Override
-                public void onResponse(Call<Review> call, Response<Review> response) {
+                public void onResponse(@NonNull Call<Review> call, @NonNull Response<Review> response) {
 
                     reviewAdapter.removeLoadingFooter();
                     isLoading = false;
@@ -163,7 +179,7 @@ public class ReviewActivity extends AppCompatActivity {
                     if(response.isSuccessful()) {
 
                         progressBar.setVisibility(View.GONE);
-                        List<ResultReview> resultReviewsList = response.body().getResults();
+                        List<ResultReview> resultReviewsList = Objects.requireNonNull(response.body()).getResults();
                         Log.d(TAG, "The API had returned:" + resultReviewsList.size());
                         reviewAdapter.addAll(resultReviewsList);
 
@@ -173,17 +189,19 @@ public class ReviewActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Review> call, Throwable t) {
+                public void onFailure(@NonNull Call<Review> call, @NonNull Throwable t) {
                     Log.e(TAG, t.toString());
+                    Toast.makeText(getApplicationContext(), R.string.NO_NETWORK, Toast.LENGTH_LONG).show();
                 }
             });
         }
 
     }
 
+
+
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
         Intent detailActivity = new Intent();
         detailActivity.putExtra(getString(R.string.PARCEL_KEY), mMovie);
         setResult(RESULT_OK, detailActivity);

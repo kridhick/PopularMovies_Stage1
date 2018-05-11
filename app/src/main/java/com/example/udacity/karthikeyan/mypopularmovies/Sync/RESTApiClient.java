@@ -1,5 +1,6 @@
 package com.example.udacity.karthikeyan.mypopularmovies.Sync;
 
+import butterknife.BindString;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

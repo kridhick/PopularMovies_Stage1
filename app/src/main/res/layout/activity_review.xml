@@ -22,7 +22,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize">
 
     <ProgressBar
         android:id="@+id/progressbar"
@@ -50,7 +51,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem = "@layout/content_review"/>
-
 
 
     </android.support.constraint.ConstraintLayout>

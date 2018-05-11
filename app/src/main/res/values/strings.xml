@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Popular Movies</string>
 
-    <!-- ><string name="API_KEY">d06aff25cc14567b778e3040f75f275c26</string> -->
 
     <!-- JSON  MOVIE - TAG Details -->
     <string name="TAG_RESULTS">results</string>
@@ -41,6 +40,8 @@
     <string name="example_original_title">The Godfather</string>
     <string name="example_overview">This is the epic tale of a 1940s New York Mafia family and their struggle to protect their empire from rival families as the leadership switches from the father to his youngest son.</string>
 
+    <string name="YouTube">Youtube</string>
+    <string name="Trailer">Trailer</string>
     <!-- Shared Preference  -->
     <string name="PREF_SORT_METHOD_KEY">SORT_METHOD</string>
     <string name="PREF_SORT_BY_TOP_RATED">Top Rated</string>

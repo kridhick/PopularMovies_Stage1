@@ -4,7 +4,6 @@ package com.example.udacity.karthikeyan.mypopularmovies.Utilities;
 
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -26,13 +25,6 @@ public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.toString();
 
 
-    /**
-     * Creates and returns an URL.
-     *
-     * @param sort_by_param Parameters to be used in the API call
-     * @return URL formatted with parameters for the API
-     * @throws MalformedURLException
-     */
     public static URL getApiUrl(Context context, String sort_by_param) {
 
      final String TMDB_BASE_URL = context.getString(R.string.TMDB_BASE_URL);
@@ -61,14 +53,7 @@ public class NetworkUtils {
         }
         
     }
-
-    /**
-     * This method returns the entire result from the HTTP response.
-     *
-     * @param url The URL to fetch the HTTP response from.
-     * @return The contents of the HTTP response, null if no response
-     * @throws IOException Related to network and stream reading
-     */
+    
     public static String getResponseFromHttpUrl(URL url) {
         HttpURLConnection urlConnection = null;
         try {

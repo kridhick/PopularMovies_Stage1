@@ -1,5 +1,6 @@
 package com.example.udacity.karthikeyan.mypopularmovies.Utilities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
@@ -13,6 +14,7 @@ public class GeneralUtils {
     private static Date getFormattedDate(String aDate, String aFormat)
     {
        try {
+           @SuppressLint("SimpleDateFormat")
            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(aFormat);
            return simpleDateFormat.parse(aDate);
        }
@@ -31,7 +33,6 @@ public class GeneralUtils {
     public static int calculateNoOfColumns(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        int noOfColumns = (int) (dpWidth / 180);
-        return noOfColumns;
+        return (int) (dpWidth / 180);
     }
 }

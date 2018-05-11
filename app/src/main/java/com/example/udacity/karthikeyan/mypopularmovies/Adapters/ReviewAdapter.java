@@ -16,6 +16,9 @@ import com.example.udacity.karthikeyan.mypopularmovies.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final int ITEM = 0;
@@ -31,6 +34,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
 
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -41,15 +45,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case ITEM:
                 View itemView = LayoutInflater.from(mContext).inflate(R.layout.content_review, parent, false);
                 itemView.setFocusable(true);
-                viewHolder = new ReviewItemViewHolder(itemView);
-                break;
+                return new ReviewItemViewHolder(itemView);
             case LOADING:
                 View progressView = LayoutInflater.from(mContext).inflate(R.layout.content_review_progress, parent, false);
                 progressView.setFocusable(true);
-                viewHolder = new ReviewProgressViewHolder(progressView);
-               break;
+                return new ReviewProgressViewHolder(progressView);
 
         }
+        //noinspection ConstantConditions
         return viewHolder;
 
     }
@@ -64,7 +67,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
            case ITEM:
                final ReviewItemViewHolder reviewItemViewHolder = (ReviewItemViewHolder) holder;
                reviewItemViewHolder.reviewAuthor.setText(resultReview.getAuthor());
-               reviewItemViewHolder.reviewComments.setText(resultReview.getContent() + resultReview.getUrl());
+               reviewItemViewHolder.reviewComments.setText(resultReview.getContent());
                break;
            case LOADING:
                final ReviewProgressViewHolder reviewProgressViewHolder = (ReviewProgressViewHolder) holder;
@@ -89,15 +92,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     //start region for View holders
     protected class ReviewItemViewHolder extends RecyclerView.ViewHolder {
-
+        @BindView(R.id.textview_author)
         TextView reviewAuthor;
+
+        @BindView(R.id.textview_comments)
         TextView reviewComments;
+
         View view;
 
-        public ReviewItemViewHolder(View itemView) {
+        ReviewItemViewHolder(View itemView) {
             super(itemView);
-            reviewAuthor = itemView.findViewById(R.id.textview_author);
-            reviewComments = itemView.findViewById(R.id.textview_comments);
+            ButterKnife.bind(this, itemView);
             view = itemView;
 
         }
@@ -107,7 +112,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         ProgressBar loadNextPageProgressBar;
 
-        public ReviewProgressViewHolder(View itemView) {
+        ReviewProgressViewHolder(View itemView) {
             super(itemView);
 
             loadNextPageProgressBar = itemView.findViewById(R.id.loadmore_progress);
@@ -130,7 +135,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         }
 
-    public void remove(ResultReview resultReview) {
+    private void remove(ResultReview resultReview) {
         int position = mReviewResults.indexOf(resultReview);
         if (position > -1) {
             mReviewResults.remove(position);
@@ -167,7 +172,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public ResultReview getItem(int position) {
+    private ResultReview getItem(int position) {
         return mReviewResults.get(position);
     }
 

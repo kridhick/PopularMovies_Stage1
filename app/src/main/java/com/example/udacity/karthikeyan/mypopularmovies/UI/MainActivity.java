@@ -21,7 +21,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.udacity.karthikeyan.mypopularmovies.BuildConfig;
 import com.example.udacity.karthikeyan.mypopularmovies.Model.Movie;
 import com.example.udacity.karthikeyan.mypopularmovies.Model.MovieContract;
 import com.example.udacity.karthikeyan.mypopularmovies.Sync.FetchMoviesFromTMDB;
@@ -36,6 +35,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.example.udacity.karthikeyan.mypopularmovies.BuildConfig.MY_MOVIE_DB_API_KEY;
 
 
@@ -45,8 +47,6 @@ public class MainActivity extends AppCompatActivity
 
     private final String TAG = MainActivity.class.getSimpleName();
     private MovieListAdapter mAdapter;
-    private ProgressBar mProgressBar;
-    private RecyclerView mRecyclerView;
     private FetchMoviesFromTMDB aSyncTask;
     FetchMoviesFromTMDB.onGetMoviesCompleted aSyncTaskCompleted;
     private List<Movie> moviesList = new ArrayList<>();
@@ -63,14 +63,18 @@ public class MainActivity extends AppCompatActivity
 
     private static final int MOVIE_LOADER_ID = 100;
 
+    @BindView(R.id.progressbar)
+    public ProgressBar mProgressBar;
+    @BindView(R.id.recyclerview)
+    public RecyclerView mRecyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = findViewById(R.id.recyclerview);
-        mProgressBar = findViewById(R.id.progressbar);
+        ButterKnife.bind(this);
 
         showLoadingInfo();
         if (savedInstanceState != null) {
